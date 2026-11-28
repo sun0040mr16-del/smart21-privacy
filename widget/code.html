@@ -1,0 +1,67 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;font:14px system-ui,sans-serif}</style>
+<title>스마트21 위젯 코드</title></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--bg:#f4f5fa;--card:#fff;--fg:#171c61;--muted:#5b6080;--accent:#e4007f;--code:#eef0f7;--line:#d9dcea;--ok:#0a8a4a;
+--f:'Nanum Gothic',system-ui,sans-serif;--m:ui-monospace,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1230;--card:#181c44;--fg:#e8eaff;--muted:#a3a8cc;--accent:#ff4fa8;--code:#0b0e26;--line:#2b3066;--ok:#4cd48d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1230;--card:#181c44;--fg:#e8eaff;--muted:#a3a8cc;--accent:#ff4fa8;--code:#0b0e26;--line:#2b3066;--ok:#4cd48d;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:20px}
+h1{font-size:1.6rem;margin:0} .lead{color:var(--muted);margin:6px 0 0;line-height:1.6}
+ol{margin:0;padding-left:1.3em;line-height:1.9;background:var(--card);border:1px solid var(--line);border-radius:10px;padding-block:14px;padding-right:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:12px;min-width:0}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h2{margin:4px 0;font-size:1.25rem} .head p{margin:0;color:var(--muted)}
+.tag{font-size:.8rem;letter-spacing:.08em;color:var(--accent);font-weight:700}
+.copy{font:700 1.1rem var(--f);background:var(--accent);color:#fff;border:0;border-radius:8px;padding:14px 26px;cursor:pointer}
+.copy:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.copy.done{background:var(--ok)}
+pre{background:var(--code);border-radius:8px;padding:12px;font:12px/1.5 var(--m);overflow-x:auto;max-height:180px;margin:0;white-space:pre}
+</style>
+<div class="wrap">
+<header><h1>네이버 블로그 위젯 코드</h1><p class="lead">분홍 <b>코드 복사</b> 버튼을 누르고, 네이버 위젯 직접등록 칸에 Ctrl+V 하면 됩니다. 이미지 주소까지 다 들어 있습니다.</p></header>
+<ol>
+<li>네이버 블로그 관리 → <b>꾸미기 설정</b> → <b>레이아웃·위젯 설정</b></li>
+<li>오른쪽 목록 맨 아래 <b>위젯 직접등록</b></li>
+<li>위젯명 입력 → 아래 <b>코드 복사</b> 버튼 → 큰 칸에 <b>Ctrl+V</b> → 다음 → 등록</li>
+<li>네이버 제한(코드 2,000byte·세로 600px) 때문에 B는 3개로 나눴습니다. A → B1 → B2 → B3 순서로 등록</li>
+<li>새 위젯을 끌어서 <b>led견적문의 바로 뒤</b>에 놓기 → 적용 전에 캡처 보내기</li>
+</ol>
+<section class="card"><div class="head"><div><span class="tag">A</span><h2>위젯 A · SNS·상담 바로가기</h2><p>위젯명 칸에 <b>SNS바로가기</b> 입력</p></div>
+<button class="copy" data-t="cA" id="btnA">코드 복사</button></div>
+<pre id="cA">&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns0_head.png&quot; width=&quot;170&quot;&gt;&lt;br&gt;
+&lt;a href=&quot;https://www.facebook.com/profile.php?id=61596858002516&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns1_facebook.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://www.instagram.com/smart21m5465/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns2_instagram.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://www.youtube.com/@sun0040mr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns3_youtube.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://www.smart21m.co.kr/blog/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns4_blog.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://pf.kakao.com/_JmDGn&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns5_kakao.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://est.smart21m.co.kr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns6_estimate.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://as.smart21m.co.kr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/sns7_as.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;</pre></section>
+<section class="card"><div class="head"><div><span class="tag">B1</span><h2>위젯 B1 · 견적상담 · LED사이즈 · LED전광판</h2><p>위젯명 칸에 <b>상담바로가기</b> 입력 · 세로 약 450px</p></div>
+<button class="copy" data-t="cB1" id="btnB1">코드 복사</button></div>
+<pre id="cB1">&lt;a href=&quot;https://est.smart21m.co.kr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w1_consult.png&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://smart21m.co.kr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w2_ledsize.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://blog.naver.com/PostSearchList.naver?blogId=smart21m&amp;searchText=LED%EC%A0%84%EA%B4%91%ED%8C%90&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w3_led.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;</pre></section>
+<section class="card"><div class="head"><div><span class="tag">B2</span><h2>위젯 B2 · DID키오스크 · ESL · 설치사례</h2><p>위젯명 칸에 <b>제품바로가기</b> 입력 · 세로 약 420px</p></div>
+<button class="copy" data-t="cB2" id="btnB2">코드 복사</button></div>
+<pre id="cB2">&lt;a href=&quot;https://blog.naver.com/PostSearchList.naver?blogId=smart21m&amp;searchText=%ED%82%A4%EC%98%A4%EC%8A%A4%ED%81%AC&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w4_did.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://blog.naver.com/PostSearchList.naver?blogId=smart21m&amp;searchText=ESL&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w5_esl.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://blog.naver.com/PostSearchList.naver?blogId=smart21m&amp;searchText=%EC%84%A4%EC%B9%98%EC%82%AC%EB%A1%80&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w6_cases.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;</pre></section>
+<section class="card"><div class="head"><div><span class="tag">B3</span><h2>위젯 B3 · 조달구매 · A/S접수 · 홈페이지</h2><p>위젯명 칸에 <b>조달AS바로가기</b> 입력 · 세로 약 260px</p></div>
+<button class="copy" data-t="cB3" id="btnB3">코드 복사</button></div>
+<pre id="cB3">&lt;a href=&quot;https://blog.naver.com/PostSearchList.naver?blogId=smart21m&amp;searchText=%EC%A1%B0%EB%8B%AC&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w7_procure.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://as.smart21m.co.kr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w8_as.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://smart21m.co.kr&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/sun0040mr16-del/smart21-privacy/blog-assets/w/w9_home.gif&quot; width=&quot;170&quot;&gt;&lt;/a&gt;</pre></section>
+<section class="card"><div class="head"><div><span class="tag">C · 시험판</span><h2>위젯 C · 시계 · 전국 날씨 · 미세먼지</h2><p>위젯명 칸에 <b>날씨시계</b> 입력 · 세로 약 490px · 네이버가 막으면 등록이 안 될 수 있음</p></div>
+<button class="copy" data-t="cC" id="btnC">코드 복사</button></div>
+<pre id="cC">&lt;iframe src=&quot;https://sun0040mr16-del.github.io/smart21-privacy/widget/weather.html&quot; width=&quot;170&quot; height=&quot;490&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;</pre></section>
+</div>
+<script>
+document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',()=>{
+ const pre=document.getElementById(btn.dataset.t), txt=pre.textContent;
+ const ok=()=>{btn.textContent='복사됨 ✓';btn.classList.add('done');setTimeout(()=>{btn.textContent='코드 복사';btn.classList.remove('done')},2500)};
+ const sel=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='선택됨 → Ctrl+C'};
+ try{navigator.clipboard.writeText(txt).then(ok,sel)}catch(e){sel()}
+}));
+</script></body></html>
