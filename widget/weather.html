@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=170">
+<title>SMART21 시계·전국날씨</title>
+<!-- 네이버 블로그 위젯용 (가로 170px, 세로 600px 이내). 날씨 데이터: Open-Meteo (무료, API키 불필요) -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:170px;font-family:'Nanum Gothic','Malgun Gothic',sans-serif;background:#fff;color:#171c61}
+.clock{background:#171c61;color:#fff;text-align:center;padding:10px 4px 8px;border-radius:6px 6px 0 0}
+.date{font-size:12px;opacity:.85}
+.time{font-size:30px;font-weight:700;letter-spacing:1px;font-variant-numeric:tabular-nums;line-height:1.2}
+.sec{font-size:15px;opacity:.7}
+.head{background:#e4007f;color:#fff;font-size:12px;font-weight:700;text-align:center;padding:4px 0}
+ul{list-style:none;border:1px solid #d9dcea;border-top:0;border-radius:0 0 6px 6px}
+li{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;font-size:13px;border-top:1px solid #eef0f7}
+li:first-child{border-top:0}
+.city{width:40px;font-weight:700}
+.ic{width:24px;text-align:center;font-size:15px}
+.desc{flex:1;font-size:11px;color:#5b6080;padding-left:2px}
+.t{width:40px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.src{font-size:9px;color:#9aa;text-align:right;padding:3px 2px}
+</style></head><body>
+<div class="clock"><div class="date" id="d"></div><div class="time"><span id="hm">--:--</span><span class="sec" id="s"></span></div></div>
+<div class="head">전국 날씨</div>
+<ul id="w"></ul>
+<div class="src" id="u">날씨: Open-Meteo</div>
+<script>
+// ===== 여기를 바꾸면 됨: 표시할 도시 (이름, 위도, 경도) =====
+var CITIES=[["서울",37.57,126.98],["인천",37.46,126.71],["춘천",37.88,127.73],["강릉",37.75,128.88],["대전",36.35,127.38],["청주",36.64,127.49],["대구",35.87,128.60],["전주",35.82,127.15],["광주",35.16,126.85],["부산",35.18,129.08],["울산",35.54,129.31],["제주",33.50,126.53]];
+var DAYS=["일","월","화","수","목","금","토"];
+// 한국 시간 기준 시계 (보는 사람 PC 시간대와 무관)
+function kst(){var n=new Date();return new Date(n.getTime()+n.getTimezoneOffset()*60000+9*3600000);}
+function p(x){return(x<10?"0":"")+x;}
+function tick(){var k=kst();
+ document.getElementById("d").textContent=k.getFullYear()+"."+p(k.getMonth()+1)+"."+p(k.getDate())+" ("+DAYS[k.getDay()]+")";
+ document.getElementById("hm").textContent=p(k.getHours())+":"+p(k.getMinutes());
+ document.getElementById("s").textContent=":"+p(k.getSeconds());}
+setInterval(tick,1000);tick();
+// 날씨 코드(WMO) → 아이콘·설명
+function wx(c){if(c==0)return["☀️","맑음"];if(c<=2)return["🌤️","구름조금"];if(c==3)return["☁️","흐림"];if(c<=48)return["🌫️","안개"];
+ if(c<=57)return["🌦️","이슬비"];if(c<=67)return["🌧️","비"];if(c<=77)return["❄️","눈"];if(c<=82)return["🌧️","소나기"];if(c<=86)return["🌨️","눈"];return["⛈️","뇌우"];}
+function load(){
+ var url="https://api.open-meteo.com/v1/forecast?timezone=Asia%2FSeoul&current=temperature_2m,weather_code&latitude="+
+  CITIES.map(function(c){return c[1]}).join(",")+"&longitude="+CITIES.map(function(c){return c[2]}).join(",");
+ fetch(url).then(function(r){return r.json()}).then(function(j){
+  if(!Array.isArray(j))j=[j];
+  var h="";j.forEach(function(o,i){var w=wx(o.current.weather_code);
+   h+='<li><span class="city">'+CITIES[i][0]+'</span><span class="ic">'+w[0]+'</span><span class="desc">'+w[1]+'</span><span class="t">'+Math.round(o.current.temperature_2m)+'°</span></li>';});
+  document.getElementById("w").innerHTML=h;
+  var k=kst();document.getElementById("u").textContent=p(k.getHours())+":"+p(k.getMinutes())+" 기준 · Open-Meteo";
+ }).catch(function(){document.getElementById("w").innerHTML='<li><span class="desc">날씨 정보를 불러오지 못했습니다</span></li>';});
+}
+load();setInterval(load,30*60*1000); // 30분마다 새로고침
+</script>
+</body></html>
