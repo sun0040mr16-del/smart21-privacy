@@ -14,15 +14,19 @@ body{width:170px;font-family:'Nanum Gothic','Malgun Gothic',sans-serif;backgroun
 ul{list-style:none;border:1px solid #d9dcea;border-top:0;border-radius:0 0 6px 6px}
 li{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;font-size:13px;border-top:1px solid #eef0f7}
 li:first-child{border-top:0}
-.city{width:40px;font-weight:700}
-.ic{width:24px;text-align:center;font-size:15px}
+.city{width:34px;font-weight:700}
+.ic{flex:1;text-align:center;font-size:15px}
 .desc{flex:1;font-size:11px;color:#5b6080;padding-left:2px}
-.t{width:40px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.dust{width:50px;white-space:nowrap;font-size:10px;font-weight:700;text-align:center;border-radius:8px;padding:1px 0;color:#fff;margin-left:4px}
+.g1{background:#2f7de1}.g2{background:#2aa15a}.g3{background:#f08c00}.g4{background:#d6303a}.g0{background:#bbb}
+.leg{font-size:9px;color:#5b6080;text-align:center;padding:3px 0 0}
+.t{width:30px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
 .src{font-size:9px;color:#9aa;text-align:right;padding:3px 2px}
 </style></head><body>
 <div class="clock"><div class="date" id="d"></div><div class="time"><span id="hm">--:--</span><span class="sec" id="s"></span></div></div>
-<div class="head">전국 날씨</div>
+<div class="head">전국 날씨 · 미세먼지</div>
 <ul id="w"></ul>
+<div class="leg">미세먼지: PM10·PM2.5 중 나쁜 등급</div>
 <div class="src" id="u">날씨: Open-Meteo</div>
 <script>
 // ===== 여기를 바꾸면 됨: 표시할 도시 (이름, 위도, 경도) =====
@@ -39,16 +43,24 @@ setInterval(tick,1000);tick();
 // 날씨 코드(WMO) → 아이콘·설명
 function wx(c){if(c==0)return["☀️","맑음"];if(c<=2)return["🌤️","구름조금"];if(c==3)return["☁️","흐림"];if(c<=48)return["🌫️","안개"];
  if(c<=57)return["🌦️","이슬비"];if(c<=67)return["🌧️","비"];if(c<=77)return["❄️","눈"];if(c<=82)return["🌧️","소나기"];if(c<=86)return["🌨️","눈"];return["⛈️","뇌우"];}
+// 미세먼지 등급 (환경부 기준) PM10: 30/80/150, PM2.5: 15/35/75 → 둘 중 나쁜 쪽 표시
+function grade(pm10,pm25){if(pm10==null&&pm25==null)return 0;
+ function g(v,a){if(v==null)return 0;return v<=a[0]?1:v<=a[1]?2:v<=a[2]?3:4;}
+ return Math.max(g(pm10,[30,80,150]),g(pm25,[15,35,75]));}
+var GN=["-","좋음","보통","나쁨","매우나쁨"];
 function load(){
- var url="https://api.open-meteo.com/v1/forecast?timezone=Asia%2FSeoul&current=temperature_2m,weather_code&latitude="+
-  CITIES.map(function(c){return c[1]}).join(",")+"&longitude="+CITIES.map(function(c){return c[2]}).join(",");
- fetch(url).then(function(r){return r.json()}).then(function(j){
-  if(!Array.isArray(j))j=[j];
-  var h="";j.forEach(function(o,i){var w=wx(o.current.weather_code);
-   h+='<li><span class="city">'+CITIES[i][0]+'</span><span class="ic">'+w[0]+'</span><span class="desc">'+w[1]+'</span><span class="t">'+Math.round(o.current.temperature_2m)+'°</span></li>';});
+ var lat=CITIES.map(function(c){return c[1]}).join(","),lon=CITIES.map(function(c){return c[2]}).join(",");
+ var wUrl="https://api.open-meteo.com/v1/forecast?timezone=Asia%2FSeoul&current=temperature_2m,weather_code&latitude="+lat+"&longitude="+lon;
+ var aUrl="https://air-quality-api.open-meteo.com/v1/air-quality?timezone=Asia%2FSeoul&current=pm10,pm2_5&latitude="+lat+"&longitude="+lon;
+ function get(u){return fetch(u).then(function(r){return r.json()}).then(function(j){return Array.isArray(j)?j:[j]}).catch(function(){return null});}
+ Promise.all([get(wUrl),get(aUrl)]).then(function(r){var W=r[0],A=r[1];
+  if(!W){document.getElementById("w").innerHTML='<li><span class="desc">날씨 정보를 불러오지 못했습니다</span></li>';return;}
+  var h="";W.forEach(function(o,i){var w=wx(o.current.weather_code);
+   var a=A&&A[i]&&A[i].current?A[i].current:{};var gd=grade(a.pm10,a.pm2_5);
+   h+='<li><span class="city">'+CITIES[i][0]+'</span><span class="ic" title="'+w[1]+'">'+w[0]+'</span><span class="t">'+Math.round(o.current.temperature_2m)+'°</span><span class="dust g'+gd+'">'+GN[gd]+'</span></li>';});
   document.getElementById("w").innerHTML=h;
-  var k=kst();document.getElementById("u").textContent=p(k.getHours())+":"+p(k.getMinutes())+" 기준 · Open-Meteo";
- }).catch(function(){document.getElementById("w").innerHTML='<li><span class="desc">날씨 정보를 불러오지 못했습니다</span></li>';});
+  var k=kst();document.getElementById("u").textContent=p(k.getHours())+":"+p(k.getMinutes())+" 기준 · Open-Meteo(예측값)";
+ });
 }
 load();setInterval(load,30*60*1000); // 30분마다 새로고침
 </script>
